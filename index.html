@@ -1,0 +1,126 @@
+<html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var myChart;
+
+    function cleanUp() {
+        if (myChart != null) myChart.destroy();
+    }
+
+    function computeCompound(capital, numberOfHits, numberOfTrades, gainInPercent, lossInPercent) {
+        let finalCapital = capital;
+        for (let i = 0; i < numberOfHits; i++) {
+            finalCapital = finalCapital * (1 + gainInPercent / 100);
+        }
+        for (let i = 0; i < numberOfTrades - numberOfHits; i++) {
+            finalCapital = finalCapital * (1 - lossInPercent / 100);
+        }
+        return finalCapital;
+    }
+
+    function computeSimple(capital, numberOfHits, numberOfTrades, gainInPercent, lossInPercent) {
+        let profit = 0;
+        for (let i = 0; i < numberOfHits; i++) {
+            profit += capital * (gainInPercent / 100);
+        }
+        for (let i = 0; i < numberOfTrades - numberOfHits; i++) {
+            profit -= capital * (lossInPercent / 100);
+        }
+        return capital + profit;
+    }
+
+    function calculatePerDay() {
+        cleanUp();
+
+        const labels = [];
+        const points = [];
+        const simplePoints = [];
+        const datasets = [];
+
+        var numberOfHits = parseInt(document.querySelector("#hits").value);
+        var numberOfTrades = parseInt(document.querySelector("#trades").value);
+        var multiplier = parseInt(document.querySelector("#multiplier").value);
+        var capital = parseInt(document.querySelector("#capital").value);
+
+        for (let i = multiplier; i <= 100; i += multiplier) {
+            labels.push(i / multiplier + ":" + i);
+            points.push(computeCompound(capital, numberOfHits, numberOfTrades, i, i/multiplier));
+            simplePoints.push(computeSimple(capital, numberOfHits, numberOfTrades, i, i/multiplier));
+        }
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Compounded Return',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: points,
+            },
+            {
+                label: 'Simple Return',
+                backgroundColor: 'rgb(99, 255, 132)',
+                borderColor: 'rgb(99, 255, 132)',
+                data: simplePoints,
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        myChart = new Chart(document.getElementById('chart'), config);
+    }
+
+</script>
+
+<body>
+    <table>
+        <tr>
+            <td>Starting capital:</td>
+            <td>
+                <input type="text" id="capital" value="100"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Total number of trades:</td>
+            <td>
+                <input type="text" id="trades" value="50"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Number of winning trades:</td>
+            <td>
+                <input type="text" id="hits" />
+            </td>
+            </tr>
+        <tr>
+            <td>Loss to Gain ratio: </td>
+            <td>
+                <select name="multiplier" id="multiplier">
+                    <option value="2">1:2</option>
+                    <option value="3">1:3</option>
+                    <option value="4">1:4</option>
+                    <option value="5">1:5</option>
+                    <option value="6">1:6</option>
+                    <option value="7">1:7</option>
+                    <option value="8">1:8</option>
+                    <option value="9">1:9</option>
+                    <option value="10">1:10</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input style="margin-top:1.5rem;width:100%" type="button" value="Calculate" onclick="calculatePerDay()">
+            </td>
+        </tr>
+    </table>
+
+    <div style="width:80%">
+        <canvas id="chart"></canvas>
+    </div>
+</body>
+
+</html>
