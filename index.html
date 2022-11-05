@@ -39,8 +39,8 @@
 
         var numberOfHits = parseInt(document.querySelector("#hits").value);
         var numberOfTrades = parseInt(document.querySelector("#trades").value);
-        var multiplier = parseInt(document.querySelector("#multiplier").value);
-        var capital = parseInt(document.querySelector("#capital").value);
+        var multiplier = parseFloat(document.querySelector("#multiplier").value);
+        var capital = parseFloat(document.querySelector("#capital").value);
 
         for (let i = multiplier; i <= 100; i += multiplier) {
             labels.push(i / multiplier + ":" + i);
@@ -99,14 +99,23 @@
             <td>Loss to Gain ratio: </td>
             <td>
                 <select name="multiplier" id="multiplier">
+                    <option value="1.5">1:1.5</option>
                     <option value="2">1:2</option>
+                    <option value="2.5">1:2.5</option>
                     <option value="3">1:3</option>
+                    <option value="3.5">1:3.5</option>
                     <option value="4">1:4</option>
+                    <option value="4.5">1:4.5</option>
                     <option value="5">1:5</option>
+                    <option value="5.5">1:5.5</option>
                     <option value="6">1:6</option>
+                    <option value="6.5">1:6.5</option>
                     <option value="7">1:7</option>
+                    <option value="7.5">1:7.5</option>
                     <option value="8">1:8</option>
+                    <option value="8.5">1:8.5</option>
                     <option value="9">1:9</option>
+                    <option value="9.5">1:9.5</option>
                     <option value="10">1:10</option>
                 </select>
             </td>
