@@ -1,0 +1,19 @@
+@startuml
+start
+:Stocks Universe;
+partition stage 2 analysis {
+  :CMP above 150 and 200 DMA;
+  :50 DMA > 150 DMA > 200 DMA;
+  :200 DMA trending up for 1 month;
+  :CMP > 1.25 * 52-week low;
+  :CMP is within 25% of 52-week high (closer the better);
+  :RS > 70 and trending up for 6 weeks;
+  :CMP > 50 DMA as coming out of base;
+}
+:Filter out if not VCP;
+partition checkViolations {
+  :Filter out extended stocks;
+}
+
+stop
+@enduml
