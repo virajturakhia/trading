@@ -12,7 +12,10 @@ partition stage 2 analysis {
 }
 :Filter out if not VCP;
 partition checkViolations {
-  :Filter out extended stocks;
+  :avoid bucking broncos;
+  :offers low risk entry point;
+  :too close to earnings?;
+  :avoid serial gapper;
 }
 
 stop
